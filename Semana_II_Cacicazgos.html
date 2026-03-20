@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana II — Cacicazgos AT-1139</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1714;
+    --ink-soft: #3d3a35;
+    --ink-muted: #7a7570;
+    --paper: #f5f1ea;
+    --paper-warm: #ede8df;
+    --paper-card: #faf7f2;
+    --rule: #d4cfc6;
+    --purple: #4b3b8c;
+    --purple-light: #e8e4f7;
+    --purple-mid: #8070c0;
+    --teal: #0f6e56;
+    --teal-light: #e0f0ea;
+    --amber: #8a5200;
+    --amber-light: #fdf0d8;
+    --red: #8b2020;
+    --red-light: #fdeaea;
+    --accent: #c8402a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 59px,
+      rgba(255,255,255,0.03) 59px,
+      rgba(255,255,255,0.03) 60px
+    );
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .course-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #a09890;
+    text-transform: uppercase;
+  }
+  .date-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #a09890;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #f5f1ea;
+    position: relative;
+  }
+  .masthead h1 em {
+    color: #c8a86a;
+    font-style: normal;
+  }
+  .masthead-sub {
+    font-size: 13px;
+    color: #a09890;
+    margin-top: 0.6rem;
+    position: relative;
+  }
+  .authors-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 2rem;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.2rem;
+  }
+  .author-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 2rem;
+    margin-right: 2rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .author-pill:last-child { border-right: none; }
+  .author-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(200,168,106,0.4);
+    line-height: 1;
+  }
+  .author-info { display: flex; flex-direction: column; }
+  .author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #f0ece4;
+  }
+  .author-detail {
+    font-size: 11px;
+    color: #908880;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── LAYOUT ── */
+  .page-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+  .section-byline {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 1.6rem;
+  }
+
+  /* ── AUTHOR BLOCKS ── */
+  .author-block {
+    margin-bottom: 3.5rem;
+  }
+  .author-header {
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 0 16px;
+    margin-bottom: 1.4rem;
+  }
+  .author-bar { border-radius: 2px; }
+  .bar-purple { background: var(--purple); }
+  .bar-teal { background: var(--teal); }
+
+  /* ── ARGUMENT BOX ── */
+  .argument-box {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .argument-box::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -9px;
+    left: 16px;
+    background: var(--paper-card);
+    padding: 0 8px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  .argument-box p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+  }
+  .argument-box p strong { color: var(--ink); font-weight: 600; }
+
+  /* ── CONCEPT GRID ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+  .concept-card {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    position: relative;
+  }
+  .concept-card.purple { border-left: 3px solid var(--purple); }
+  .concept-card.teal   { border-left: 3px solid var(--teal); }
+  .concept-term {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--purple);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .concept-card.teal .concept-term { color: var(--teal); }
+  .concept-def {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* ── CASES ROW ── */
+  .cases-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.2rem;
+  }
+  .case-chip {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .case-chip-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+  .case-chip-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .case-chip-sub {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 1px;
+  }
+
+  /* ── CRITIQUE BOX ── */
+  .critique-box {
+    background: var(--amber-light);
+    border: 1px solid #e8c87a;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+  }
+  .critique-box-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .critique-list { list-style: none; }
+  .critique-list li {
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 4px 0 4px 18px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    line-height: 1.55;
+  }
+  .critique-list li:last-child { border-bottom: none; }
+  .critique-list li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 11px;
+    top: 5px;
+  }
+  .critique-list li strong { color: var(--ink); font-weight: 600; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem 0;
+  }
+
+  /* ── COMPARATIVE TABLE ── */
+  .comp-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.6rem;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  table.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--paper-card);
+  }
+  table.comp-table th {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 2px solid var(--rule);
+  }
+  table.comp-table th:first-child { color: var(--ink-muted); background: var(--paper-warm); }
+  table.comp-table th.col-fl { color: var(--purple); background: var(--purple-light); }
+  table.comp-table th.col-ma { color: var(--teal); background: var(--teal-light); }
+  table.comp-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  table.comp-table td:first-child {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    background: var(--paper-warm);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  table.comp-table tr:last-child td { border-bottom: none; }
+  table.comp-table tr:hover td { background: rgba(0,0,0,0.015); }
+  table.comp-table tr:hover td:first-child { background: var(--paper-warm); }
+
+  /* ── QUIZ SECTION ── */
+  .quiz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.4rem;
+  }
+  @media (max-width: 640px) { .quiz-grid { grid-template-columns: 1fr; } }
+  .quiz-card {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    position: relative;
+  }
+  .quiz-card:hover { border-color: #b0a898; background: #fff; }
+  .quiz-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    margin-bottom: 5px;
+    letter-spacing: 0.08em;
+  }
+  .quiz-q {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .quiz-answer {
+    display: none;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    margin-top: 4px;
+  }
+  .quiz-answer.visible { display: block; }
+  .quiz-toggle {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .quiz-toggle:hover { color: var(--ink); }
+  .tag-a { color: var(--purple); }
+  .tag-b { color: var(--teal); }
+  .tag-c { color: var(--accent); }
+
+  /* ── STRATEGY BOX ── */
+  .strategy-box {
+    background: var(--red-light);
+    border: 1px solid #e0b0b0;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .strategy-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .strategy-text { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+  .strategy-text strong { color: var(--red); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    letter-spacing: 0.06em;
+  }
+
+  @media print {
+    .masthead { background: #1a1714 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { font-size: 13px; }
+    .quiz-answer { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-top">
+    <span class="course-tag">AT-1139 Cacicazgos · UCR · I-2026 · Semana II</span>
+    <span class="date-tag">Quiz: viernes 20 mar 2026 · 10:00 h</span>
+  </div>
+  <h1>Evolución <em>Cultural</em><br>de las Civilizaciones</h1>
+  <p class="masthead-sub">Prof. Mauricio Murillo Herrera · Aula 207 CS</p>
+  <div class="authors-strip">
+    <div class="author-pill">
+      <div class="author-num">I</div>
+      <div class="author-info">
+        <span class="author-name">Flannery, K. V.</span>
+        <span class="author-detail">1972 · Annual Review Ecol. & Syst.</span>
+      </div>
+    </div>
+    <div class="author-pill">
+      <div class="author-num">II</div>
+      <div class="author-info">
+        <span class="author-name">Marcus, J.</span>
+        <span class="author-detail">2008 · Annual Review of Anthropology</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="page-body">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- FLANNERY -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="author-block">
+    <div class="author-header">
+      <div class="author-bar bar-purple"></div>
+      <div>
+        <div class="section-title">Flannery 1972</div>
+        <div class="section-byline">«La evolución cultural de las civilizaciones» · Ed. Anagrama (trad. 1975)</div>
+      </div>
+    </div>
+
+    <div class="argument-box" data-label="Argumento central">
+      <p>Las sociedades complejas solo se comprenden si se trata a la sociedad humana como un <strong>ecosistema</strong> donde fluyen simultáneamente materia, energía e <strong>información</strong>. La evolución social implica un aumento progresivo en la <strong>segregación</strong> (diferenciación de subsistemas internos) y la <strong>centralización</strong> (controles de orden superior que los coordinan). Ningún «primer motor» único explica el surgimiento del estado: la causalidad es múltiple y las presiones socioambientales son específicas de cada región.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card purple">
+        <div class="concept-term">Segregación</div>
+        <div class="concept-def">Grado de diferenciación y especialización interna de los subsistemas de una sociedad (artesanos, sacerdotes, guerreros como categorías separadas).</div>
+      </div>
+      <div class="concept-card purple">
+        <div class="concept-term">Centralización</div>
+        <div class="concept-def">Grado de vinculación entre subsistemas a través de controles de orden superior. A mayor complejidad, mayor necesidad de dirección centralizada.</div>
+      </div>
+      <div class="concept-card purple">
+        <div class="concept-term">Primeros motores</div>
+        <div class="concept-def">Explicaciones monocausales del origen del estado que Flannery critica: irrigación (Wittfogel), guerra (Carneiro), crecimiento poblacional, comercio, religión. Ninguna es universal ni suficiente.</div>
+      </div>
+      <div class="concept-card purple">
+        <div class="concept-term">Jefatura (chiefdom)</div>
+        <div class="concept-def">Sociedad con linajes jerárquicamente clasificados desde el nacimiento. El jefe es de origen noble/divino; tiene séquito de parientes y bienes suntuarios (jade, turquesa, cobre) que marcan el rango.</div>
+      </div>
+      <div class="concept-card purple">
+        <div class="concept-term">Procesamiento de información</div>
+        <div class="concept-def">Las instituciones son fundamentalmente procesadoras de información. Conforme crece la complejidad, la sociedad necesita procesar y almacenar más datos: de dirigentes informales a burocracias.</div>
+      </div>
+      <div class="concept-card purple">
+        <div class="concept-term">Causalidad múltiple</div>
+        <div class="concept-def">Mecanismos y procesos evolutivos son universales; las presiones socioambientales que los desencadenan son regionales. No hay una sola causa; hay convergencia de factores.</div>
+      </div>
+    </div>
+
+    <div class="critique-box">
+      <div class="critique-box-label">Crítica de Flannery a los «primeros motores»</div>
+      <ul class="critique-list">
+        <li><strong>Irrigación (Wittfogel):</strong> el estado maya surgió en zonas donde la irrigación era mínima o irrelevante.</li>
+        <li><strong>Guerra (Carneiro):</strong> las pruebas arqueológicas de guerra son posteriores a la formación estatal, no anteriores.</li>
+        <li><strong>Crecimiento poblacional:</strong> los cazadores-recolectores tienen más tiempo libre; los agricultores no producen excedente a menos que se les obligue.</li>
+        <li><strong>Ecologismo cultural:</strong> tratar arte, religión e ideología como meros «epifenómenos» empobrece el análisis.</li>
+      </ul>
+    </div>
+
+    <div class="cases-row">
+      <div class="case-chip">
+        <div class="case-chip-label">Caso etnográfico</div>
+        <div class="case-chip-value">Hawai / Tonga</div>
+        <div class="case-chip-sub">Jefaturas polinesias clásicas</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso etnográfico</div>
+        <div class="case-chip-value">Natchez / Kwakiutl</div>
+        <div class="case-chip-sub">Mississippi y Pacífico NW</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso arqueológico</div>
+        <div class="case-chip-value">La Venta, México</div>
+        <div class="case-chip-sub">Olmeca, ~800 a.C. — jade en tumbas</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso arqueológico</div>
+        <div class="case-chip-value">Tell es-Sawwan, Iraq</div>
+        <div class="case-chip-sub">~5500-5000 a.C. — entierros infantiles con alabastro</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Fecha clave</div>
+        <div class="case-chip-value">~5500 a.C.</div>
+        <div class="case-chip-sub">Primeras jefaturas, Próximo Oriente</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Fecha clave</div>
+        <div class="case-chip-value">~1000-800 a.C.</div>
+        <div class="case-chip-sub">Jefaturas en Mesoamérica y Andes</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- MARCUS -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="author-block">
+    <div class="author-header">
+      <div class="author-bar bar-teal"></div>
+      <div>
+        <div class="section-title">Marcus 2008</div>
+        <div class="section-byline">«The Archaeological Evidence for Social Evolution» · Annual Review of Anthropology 37:251-266</div>
+      </div>
+    </div>
+
+    <div class="argument-box" data-label="Argumento central">
+      <p>La evolución social <strong>realmente ocurrió</strong> — el registro arqueológico lo demuestra sin duda. Pero solo puede estudiarse bien cuando arqueólogos, etnólogos y etnohistoriadores <strong>colaboran</strong>. Es necesario distinguir entre <strong>evolución específica</strong> (cambios locales sin salto de complejidad) y <strong>evolución general</strong> (surgimiento de formas más centralizadas), sin asumir secuencias rígidas ni unilineales. El campo debe recuperar el comparativismo y la generalización.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card teal">
+        <div class="concept-term">Evolución específica</div>
+        <div class="concept-def">Cambios internos de una sociedad sin aumentar su complejidad tipológica general. La más frecuente. Ej.: una banda que crece y se divide en clanes sigue siendo una banda.</div>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-term">Evolución general</div>
+        <div class="concept-def">Surgimiento de nuevas formas de organización más centralizadas y jerarquizadas. La que más ha capturado la imaginación de los arqueólogos. Menos frecuente que la específica.</div>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-term">Chiefly cycling</div>
+        <div class="concept-def">Las jefaturas oscilan cíclicamente entre centralización (una domina a otras) y fragmentación (colapso y recuperación de autonomía). No es «fracaso» sino la norma en este tipo de sociedad.</div>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-term">Rol de la arqueología</div>
+        <div class="concept-def">Analogía: arqueología = paleontología; etnología = zoología. La arqueología provee 10.000+ años de continuidad que ningún etnólogo puede observar. Es el «registro fósil» de la evolución social.</div>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-term">Etnogénesis</div>
+        <div class="concept-def">Surgimiento reconocible de un grupo étnico en el registro arqueológico (ej.: sociedades esquimales en el Ártico canadiense en períodos Dorset y Thule).</div>
+      </div>
+      <div class="concept-card teal">
+        <div class="concept-term">3 requisitos evolutivos (Wright)</div>
+        <div class="concept-def">Toda teoría evolutiva necesita: (1) tipología con direccionalidad posible, (2) probabilidad de avanzar mayor que de retroceder, (3) posibilidad de progresión sin secuencia rígida.</div>
+      </div>
+    </div>
+
+    <div class="cases-row">
+      <div class="case-chip">
+        <div class="case-chip-label">Caso principal</div>
+        <div class="case-chip-value">Valle de Oaxaca</div>
+        <div class="case-chip-sub">México · chiefly cycling</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Actores clave</div>
+        <div class="case-chip-value">San José Mogote vs Tilcajete</div>
+        <div class="case-chip-sub">600-300 a.C. — rivalidad entre jefaturas</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Resultado</div>
+        <div class="case-chip-value">Monte Albán</div>
+        <div class="case-chip-sub">~500 a.C. — estado zapoteca</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso principal 2</div>
+        <div class="case-chip-value">Egipto predinástico</div>
+        <div class="case-chip-sub">Hierakonpolis, 3400-3200 a.C.</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Resultado</div>
+        <div class="case-chip-value">Dinastía 1 (Narmer)</div>
+        <div class="case-chip-sub">~3000 a.C. — unificación de Egipto</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Sitio mencionado</div>
+        <div class="case-chip-value">Caral, Perú</div>
+        <div class="case-chip-sub">~2200 a.C. — complejo monumental temprano</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TABLA COMPARATIVA -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="section-title">Tabla comparativa</div>
+  <div class="section-byline">Flannery 1972 vs. Marcus 2008 — diferencias y convergencias</div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Dimensión</th>
+          <th class="col-fl">Flannery 1972</th>
+          <th class="col-ma">Marcus 2008</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Argumento eje</td>
+          <td>Sociedad como ecosistema; evolución = segregación + centralización crecientes</td>
+          <td>Evolución social ocurrió; estudiarla requiere colaboración arq.–etnología y comparativismo</td>
+        </tr>
+        <tr>
+          <td>Enfoque temporal</td>
+          <td>Predominantemente sincrónico: cómo <em>funciona</em> el sistema en cada nivel</td>
+          <td>Predominantemente diacrónico: cómo <em>cambia</em> el sistema a lo largo del tiempo</td>
+        </tr>
+        <tr>
+          <td>Fuente principal</td>
+          <td>Etnografía comparada + arqueología; fuerte apoyo en antropología ecológica</td>
+          <td>Arqueología como fuente primaria; etnología y etnohistoria como complemento</td>
+        </tr>
+        <tr>
+          <td>Concepto innovador</td>
+          <td>Segregación / centralización como métricas de complejidad sistémica</td>
+          <td>Chiefly cycling: las jefaturas oscilan cíclicamente, no «progresan» linealmente</td>
+        </tr>
+        <tr>
+          <td>Postura ante tipología</td>
+          <td>La usa (banda→tribu→jefatura→estado) pero la complejiza con el modelo ecosistémico</td>
+          <td>La defiende explícitamente: sin tipología no hay comparación ni teoría evolutiva posible</td>
+        </tr>
+        <tr>
+          <td>Crítica central</td>
+          <td>Los «primeros motores» monocausales son insuficientes; critica tanto ecologistas como humanistas</td>
+          <td>El anticomparativismo contemporáneo en antropología debilita el campo; hay que generalizar</td>
+        </tr>
+        <tr>
+          <td>Casos empíricos</td>
+          <td>Hawai, Tonga, Natchez, Kwakiutl; La Venta (olmeca); Tell es-Sawwan (Iraq)</td>
+          <td>Valle de Oaxaca (San José Mogote → Monte Albán); Egipto predinástico (Hierakonpolis → Narmer)</td>
+        </tr>
+        <tr>
+          <td>Relación entre sí</td>
+          <td colspan="2">Son coautores. Flannery pone el marco teórico en 1972; Marcus lo actualiza 36 años después añadiendo la dinámica temporal, el cycling y la defensa del comparativismo.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- QUIZ -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="section-title">Simulacro de quiz</div>
+  <div class="section-byline">Clic en cada tarjeta para revelar la respuesta · Formato real: 15 min, 4-5 preguntas</div>
+
+  <div class="quiz-grid">
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-01 · <span class="tag-a">Flannery</span></div>
+      <div class="quiz-q">¿Cuáles son las dos variables con las que Flannery mide la complejidad de un sistema social, y qué significan?</div>
+      <div class="quiz-answer"><strong>Segregación</strong>: grado de diferenciación y especialización interna de los subsistemas (artesanos, sacerdotes, etc. como categorías separadas). <strong>Centralización</strong>: grado de vinculación entre subsistemas mediante controles de orden superior. A mayor complejidad evolutiva, mayor de ambas.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-02 · <span class="tag-a">Flannery</span></div>
+      <div class="quiz-q">Mencione dos «primeros motores» que Flannery critica como explicaciones del origen del estado y explique la crítica de uno de ellos.</div>
+      <div class="quiz-answer">Dos opciones: <strong>irrigación</strong> (Wittfogel) — el estado maya surgió donde la irrigación era mínima, no como consecuencia de ella. <strong>Guerra</strong> (Carneiro) — las pruebas arqueológicas de guerra son posteriores a la formación estatal, no anteriores; no se puede demostrar que fue causa y no consecuencia.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-03 · <span class="tag-b">Marcus</span></div>
+      <div class="quiz-q">¿Cuál es la diferencia entre evolución específica y evolución general según Marcus? ¿Cuál es más frecuente?</div>
+      <div class="quiz-answer"><strong>Evolución específica</strong>: cambios internos de una sociedad sin aumentar su nivel de complejidad tipológica (la más frecuente). <strong>Evolución general</strong>: surgimiento de formas de organización más centralizadas y jerarquizadas (menos frecuente, pero la que más ha captado la atención de los arqueólogos).</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-04 · <span class="tag-b">Marcus</span></div>
+      <div class="quiz-q">Explique el concepto de «chiefly cycling» usando el caso del Valle de Oaxaca.</div>
+      <div class="quiz-answer">Las jefaturas oscilan entre períodos de centralización y fragmentación. En Oaxaca, San José Mogote y Tilcajete competían: una atacaba y quemaba a la otra, que se reponía y contraatacaba. Hacia el 500-300 a.C. Monte Albán unificó el valle formando el estado zapoteca. El cycling no es fracaso sino la dinámica normal de las jefaturas.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-05 · <span class="tag-c">Comparativa</span></div>
+      <div class="quiz-q">¿Cuál es la principal diferencia de enfoque entre Flannery (1972) y Marcus (2008)?</div>
+      <div class="quiz-answer">Flannery es más <strong>sistémico y sincrónico</strong>: explica cómo funciona el sistema en cada nivel de complejidad usando el modelo de ecosistema. Marcus es más <strong>dinámico y diacrónico</strong>: explica cómo cambia el sistema a lo largo del tiempo, añadiendo el chiefly cycling y la defensa del comparativismo frente al antievolucionalismo contemporáneo.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-06 · <span class="tag-a">Flannery</span></div>
+      <div class="quiz-q">¿Cuáles son las características principales de una jefatura según Flannery? Mencione al menos tres.</div>
+      <div class="quiz-answer">Linajes jerárquicamente clasificados <strong>desde el nacimiento</strong> (no por méritos). Jefe de <strong>origen noble o divino</strong> con séquito de parientes. Presencia de <strong>bienes suntuarios</strong> (jade, turquesa, cobre, alabastro) recuperables arqueológicamente. Gran población con aldeas satélite. Especialización artesanal. Rituales complejos para redistribuir recursos.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+  </div>
+
+  <div class="strategy-box">
+    <div class="strategy-icon">⚑</div>
+    <div class="strategy-text">
+      <strong>Estrategia para el quiz de mañana:</strong> El profesor puede preguntar de cualquier semana anterior. Con solo dos lecturas hoy, el riesgo es bajo — pero asegurate de poder responder de memoria: argumento central de cada autor (1-2 oraciones), 2-3 conceptos clave con definición precisa, y los casos empíricos (quién, dónde, cuándo). Las preguntas Q-02 y Q-04 son las más probables por su especificidad empírica.
+    </div>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  AT-1139 Cacicazgos · Alfredo Jesús Montero Fonseca · Carné 942297 · UCR I-2026
+</footer>
+
+<script>
+  function toggle(card) {
+    const answer = card.querySelector('.quiz-answer');
+    const btn = card.querySelector('.quiz-toggle');
+    const isVisible = answer.classList.contains('visible');
+    answer.classList.toggle('visible', !isVisible);
+    btn.textContent = isVisible ? '▸ ver respuesta' : '▴ ocultar';
+  }
+</script>
+</body>
+</html>
