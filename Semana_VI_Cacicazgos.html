@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semana VI — Cacicazgos AT-1139</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1714;
+    --ink-soft: #3d3a35;
+    --ink-muted: #7a7570;
+    --paper: #f5f1ea;
+    --paper-warm: #ede8df;
+    --paper-card: #faf7f2;
+    --rule: #d4cfc6;
+    --purple: #4b3b8c;
+    --purple-light: #e8e4f7;
+    --teal: #0f6e56;
+    --teal-light: #e0f0ea;
+    --amber: #8a5200;
+    --amber-light: #fdf0d8;
+    --red: #7a1a1a;
+    --red-light: #fdeaea;
+    --crimson: #8b1a1a;
+    --crimson-light: #f9e8e8;
+    --navy: #1a2f5a;
+    --navy-light: #e4eaf5;
+    --accent: #c8402a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: #1e1210;
+    color: var(--paper);
+    padding: 2.5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 59px,
+      rgba(255,255,255,0.03) 59px,
+      rgba(255,255,255,0.03) 60px
+    );
+  }
+  .masthead::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #b03020, #d06040, #b03020);
+  }
+  .masthead-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .course-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #a09890;
+    text-transform: uppercase;
+  }
+  .date-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #a09890;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #f5f1ea;
+    position: relative;
+  }
+  .masthead h1 em {
+    color: #d4836a;
+    font-style: normal;
+  }
+  .masthead-sub {
+    font-size: 13px;
+    color: #a09890;
+    margin-top: 0.6rem;
+    position: relative;
+  }
+  .authors-strip {
+    display: flex;
+    gap: 0;
+    margin-top: 2rem;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.2rem;
+  }
+  .author-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 2rem;
+    margin-right: 2rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .author-pill:last-child { border-right: none; }
+  .author-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(208,96,64,0.4);
+    line-height: 1;
+  }
+  .author-info { display: flex; flex-direction: column; }
+  .author-name { font-size: 13px; font-weight: 600; color: #f0ece4; }
+  .author-detail { font-size: 11px; color: #908880; font-family: 'DM Mono', monospace; }
+
+  /* ── LAYOUT ── */
+  .page-body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+  .section-byline {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 1.6rem;
+  }
+
+  /* ── AUTHOR BLOCKS ── */
+  .author-block { margin-bottom: 3.5rem; }
+  .author-header {
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 0 16px;
+    margin-bottom: 1.4rem;
+  }
+  .author-bar { border-radius: 2px; }
+  .bar-crimson { background: var(--crimson); }
+  .bar-navy   { background: var(--navy); }
+
+  /* ── ARGUMENT BOX ── */
+  .argument-box {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+  }
+  .argument-box::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -9px; left: 16px;
+    background: var(--paper-card);
+    padding: 0 8px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  .argument-box p { font-size: 14px; line-height: 1.75; color: var(--ink-soft); }
+  .argument-box p strong { color: var(--ink); font-weight: 600; }
+
+  /* ── CONCEPT GRID ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.2rem;
+  }
+  .concept-card {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+  }
+  .concept-card.crimson { border-left: 3px solid var(--crimson); }
+  .concept-card.navy    { border-left: 3px solid var(--navy); }
+  .concept-term {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .concept-card.crimson .concept-term { color: var(--crimson); }
+  .concept-card.navy    .concept-term { color: var(--navy); }
+  .concept-def { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* ── CASES ROW ── */
+  .cases-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.2rem;
+  }
+  .case-chip {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .case-chip-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 3px;
+  }
+  .case-chip-value { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .case-chip-sub { font-size: 11px; color: var(--ink-muted); margin-top: 1px; }
+
+  /* ── CRITIQUE / DEBATE BOX ── */
+  .debate-box {
+    background: var(--crimson-light);
+    border: 1px solid #d4a0a0;
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+  }
+  .debate-box-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--crimson);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .debate-list { list-style: none; }
+  .debate-list li {
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 4px 0 4px 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    line-height: 1.55;
+  }
+  .debate-list li:last-child { border-bottom: none; }
+  .debate-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--crimson);
+    font-size: 11px;
+    top: 5px;
+  }
+  .debate-list li strong { color: var(--ink); font-weight: 600; }
+
+  /* ── NINE TRENDS BOX ── */
+  .trends-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 1.2rem;
+  }
+  @media (max-width: 640px) { .trends-grid { grid-template-columns: 1fr; } }
+  .trend-item {
+    background: var(--navy-light);
+    border: 1px solid #c0ccdd;
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .trend-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .trend-title { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+  .trend-desc { font-size: 11px; color: var(--ink-muted); line-height: 1.5; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+
+  /* ── COMPARATIVE TABLE ── */
+  .comp-table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.6rem;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+  }
+  table.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: var(--paper-card);
+  }
+  table.comp-table th {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 2px solid var(--rule);
+  }
+  table.comp-table th:first-child { color: var(--ink-muted); background: var(--paper-warm); }
+  table.comp-table th.col-ca { color: var(--crimson); background: var(--crimson-light); }
+  table.comp-table th.col-ki { color: var(--navy); background: var(--navy-light); }
+  table.comp-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  table.comp-table td:first-child {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    background: var(--paper-warm);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  table.comp-table tr:last-child td { border-bottom: none; }
+  table.comp-table tr:hover td { background: rgba(0,0,0,0.015); }
+  table.comp-table tr:hover td:first-child { background: var(--paper-warm); }
+
+  /* ── QUIZ ── */
+  .quiz-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.4rem;
+  }
+  @media (max-width: 640px) { .quiz-grid { grid-template-columns: 1fr; } }
+  .quiz-card {
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .quiz-card:hover { border-color: #b0a898; background: #fff; }
+  .quiz-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-muted); margin-bottom: 5px; letter-spacing: 0.08em; }
+  .quiz-q { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.5; }
+  .quiz-answer {
+    display: none;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    margin-top: 4px;
+  }
+  .quiz-answer.visible { display: block; }
+  .quiz-toggle {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .quiz-toggle:hover { color: var(--ink); }
+  .tag-ca { color: var(--crimson); }
+  .tag-ki { color: var(--navy); }
+  .tag-co { color: var(--amber); }
+
+  /* ── STRATEGY BOX ── */
+  .strategy-box {
+    background: var(--amber-light);
+    border: 1px solid #e8c87a;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .strategy-icon { font-size: 1.4rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .strategy-text { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+  .strategy-text strong { color: var(--amber); font-weight: 600; }
+
+  /* ── CONNECTION BOX ── */
+  .connection-box {
+    background: var(--navy-light);
+    border: 1px solid #c0ccdd;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+  .connection-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .connection-text { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+  .connection-text strong { color: var(--ink); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    text-align: center;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--ink-muted);
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    letter-spacing: 0.06em;
+  }
+
+  @media print {
+    .masthead { background: #1e1210 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { font-size: 13px; }
+    .quiz-answer { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-top">
+    <span class="course-tag">AT-1139 Cacicazgos · UCR · I-2026 · Semana VI</span>
+    <span class="date-tag">Quiz: viernes 24 abr 2026 · 10:00 h</span>
+  </div>
+  <h1>Guerra, circunscripción<br>y <em>evolución política</em></h1>
+  <p class="masthead-sub">Prof. Mauricio Murillo Herrera · Aula 207 CS</p>
+  <div class="authors-strip">
+    <div class="author-pill">
+      <div class="author-num">I</div>
+      <div class="author-info">
+        <span class="author-name">Carneiro, R. L.</span>
+        <span class="author-detail">1981 · «The chiefdom: precursor of the state»</span>
+      </div>
+    </div>
+    <div class="author-pill">
+      <div class="author-num">II</div>
+      <div class="author-info">
+        <span class="author-name">Kirch, P. V.</span>
+        <span class="author-detail">1984 · The Evolution of the Polynesian Chiefdoms (cap. 1)</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="page-body">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- CARNEIRO -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">01</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="author-block">
+    <div class="author-header">
+      <div class="author-bar bar-crimson"></div>
+      <div>
+        <div class="section-title">Carneiro 1981</div>
+        <div class="section-byline">«The chiefdom: precursor of the state» · En: Jones & Kautz (eds.), <em>The Transition to Statehood in the New World</em>, Cambridge Univ. Press</div>
+      </div>
+    </div>
+
+    <div class="argument-box" data-label="Argumento central">
+      <p>El cacicazgo es el <strong>precursor necesario del estado</strong>: representa el primer momento en la historia humana en que la autonomía local es superada y se forman unidades políticas multicomunitarias. Este salto es <strong>cualitativo</strong>; todo lo que sigue — estados, imperios — es cuantitativo. El mecanismo que produce cacicazgos es la <strong>guerra bajo circunscripción ambiental o social</strong>: cuando la tierra escasea y los pueblos vencidos no tienen dónde huir, se ven obligados a subordinarse al vencedor.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card crimson">
+        <div class="concept-term">Definición mínima de cacicazgo</div>
+        <div class="concept-def">Unidad política autónoma que comprende un número de aldeas o comunidades bajo el control permanente de un jefe supremo (<em>paramount chief</em>). Es una definición estructural y territorial, no basada en atributos del jefe.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Circunscripción ambiental</div>
+        <div class="concept-def">El factor detonante de la formación de cacicazgos: cuando la tierra agrícola está limitada por barreras naturales (islas, valles estrechos), los pueblos vencidos no pueden huir y deben subordinarse. Genera la fusión coercitiva de aldeas.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Circunscripción social</div>
+        <div class="concept-def">Variante sin barreras físicas: cuando la densidad de población es tan alta que los pueblos vecinos actúan como "muros". Menos efectiva que la ambiental; los cacicazgos tardan más en formarse (ej.: Lowland Maya, 500 años después que Oaxaca).</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Guerra como mecanismo causal</div>
+        <div class="concept-def">Para Carneiro la guerra es EL mecanismo que produce cacicazgos y estados. Critica que muchos antropólogos rechazan este rol. Sin ella o la amenaza de ella, las aldeas autónomas no se fusionan voluntariamente en unidades permanentes.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Tipología de cacicazgos</div>
+        <div class="concept-def">Carneiro propone tres niveles: <strong>mínimal</strong> (apenas supera el umbral: pocas aldeas), <strong>típico</strong> (elaborado pero lejos del estado) y <strong>maximal</strong> (roza el umbral del estado). Ejemplos: Kiriwina = mínimal; Cherokee = típico; Hawai = maximal.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Crítica a la redistribución</div>
+        <div class="concept-def">Carneiro refuta la tesis de Sahlins y Service de que la redistribución es la base del cacicazgo. Lo que formalmente parece redistribución es funcionalmente más cercano a la <strong>tributación</strong>. El poder del jefe no viene de redistribuir sino de apropiarse y concentrar.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Salto cualitativo</div>
+        <div class="concept-def">La formación del cacicazgo es el paso más importante en la historia política humana. Tardó 3 millones de años en darse (≥99% de la historia humana transcurrió con aldeas autónomas). Una vez cruzado el umbral, se vuelve un proceso acelerado e irreversible.</div>
+      </div>
+      <div class="concept-card crimson">
+        <div class="concept-term">Identificación arqueológica</div>
+        <div class="concept-def">Cuatro indicadores: (1) arquitectura monumental (labor organizada mayor que una aldea), (2) centros ceremoniales que sirven a múltiples aldeas, (3) enterramientos diferenciados con bienes suntuarios, (4) curva bimodal en tamaños de asentamiento.</div>
+      </div>
+    </div>
+
+    <div class="debate-box">
+      <div class="debate-box-label">Debate teórico — posiciones que Carneiro confronta</div>
+      <ul class="debate-list">
+        <li><strong>Service / Sahlins:</strong> ven al cacicazgo como esencialmente <em>económico</em> (redistribución). Carneiro responde: el poder real del jefe es político-coercitivo, no económico-redistributivo.</li>
+        <li><strong>Fried:</strong> usa «sociedad de rango» en lugar de cacicazgo, ignorando su naturaleza política multicomunitaria. Para Carneiro, los cacicazgos son <em>formas políticas</em>, no meramente de estratificación.</li>
+        <li><strong>Webb:</strong> cree que los cacicazgos son callejones sin salida evolutivos que no pueden cruzar al estado. Carneiro responde: si no hay otra ruta al estado, ¿qué interpondría Webb entre aldeas autónomas y el estado?</li>
+        <li><strong>Sanders y Webster:</strong> sostienen que muchos estados pristinos surgieron de sociedades igualitarias sin pasar por cacicazgos. Carneiro: su «sociedad estratificada» equivale en la práctica a un cacicazgo.</li>
+      </ul>
+    </div>
+
+    <div class="cases-row">
+      <div class="case-chip">
+        <div class="case-chip-label">Caso mínimal</div>
+        <div class="case-chip-value">Kiriwina (Trobriand)</div>
+        <div class="case-chip-sub">Pocas aldeas, estructura simple</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso típico</div>
+        <div class="case-chip-value">Cherokee / Natchez</div>
+        <div class="case-chip-sub">SE de EE.UU.; ~60 aldeas</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso maximal</div>
+        <div class="case-chip-value">Hawai / Tahiti</div>
+        <div class="case-chip-sub">Rozando el umbral del estado</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Circunscripción ambiental</div>
+        <div class="case-chip-value">Valles de México y Oaxaca</div>
+        <div class="case-chip-sub">Cacicazgos tempranos por valles cerrados</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Circunscripción social</div>
+        <div class="case-chip-value">Lowland Maya</div>
+        <div class="case-chip-sub">Cacicazgos 500 años después que Oaxaca</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Distribución mundial</div>
+        <div class="case-chip-value">Circum-Caribe</div>
+        <div class="case-chip-sub">La región con más cacicazgos; sólo el Valle del Cauca tenía ≥80</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- KIRCH -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">02</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="author-block">
+    <div class="author-header">
+      <div class="author-bar bar-navy"></div>
+      <div>
+        <div class="section-title">Kirch 1984</div>
+        <div class="section-byline">«Introduction» · <em>The Evolution of the Polynesian Chiefdoms</em> · Cambridge University Press</div>
+      </div>
+    </div>
+
+    <div class="argument-box" data-label="Argumento central">
+      <p>Polinesia es un <strong>laboratorio natural</strong> para el estudio de la evolución social: 50 sociedades derivadas de un mismo ancestro común (<em>Sociedad Polinesia Ancestral</em>) que se diferenciaron en aislamiento bajo condiciones ecológicas contrastantes. La variabilidad resultante — desde sociedades relativamente igualitarias hasta cacicazgos elaborados como Hawai — no se explica por difusión sino por <strong>procesos evolutivos locales</strong>. La arqueología diacrónica es imprescindible para estudiar estos procesos; la etnografía sincrónica solo muestra los puntos de llegada.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card navy">
+        <div class="concept-term">Sociedad Polinesia Ancestral (APS)</div>
+        <div class="concept-def">El punto de origen común del que derivan todas las sociedades polinesias. Ya era jerárquicamente estructurada: la demanda de excedente y los conceptos de rango (<em>ariki</em>), <em>mana</em> y <em>tapu</em> son anteriores a la colonización de la mayoría de las islas.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Polinesia como laboratorio</div>
+        <div class="concept-def">Control analítico excepcional: origen común, aislamiento entre islas (reduce difusión), variabilidad ecológica enorme (atolos a altas islas, poblaciones de cientos a cientos de miles), y continuidad directa entre pasado prehistórico y presente etnográfico.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Enfoque diacrónico vs. sincrónico</div>
+        <div class="concept-def">La etnografía solo ilumina el <em>punto de llegada</em> (endpoint) de cada secuencia. Para entender los procesos de cambio es necesaria la arqueología, que provee las secuencias diacrónicas. Crítica implícita a Sahlins 1958, que era exclusivamente sincrónico.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Rechazo del estadialismo rígido</div>
+        <div class="concept-def">Kirch rechaza explícitamente los esquemas neoevolucionistas de Service y Fried como «caballo muerto» para Polinesia. Usa el término «cacicazgo» descriptivamente, no como «etapa» con secuencia rígida o unilineal.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Jerarquía de restricciones ecológicas</div>
+        <div class="concept-def">El entorno no determina la evolución, pero impone una <em>jerarquía de restricciones</em> que moldea los caminos posibles. Hawai tenía las mayores oportunidades (llanuras aluviales, irrigación); Isla de Pascua las más severas restricciones (sin ríos, lluvia escasa, flora limitada).</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">9 tendencias dominantes en Polinesia</div>
+        <div class="concept-def">Kirch identifica tendencias paralelas en todas las secuencias polinesias: crecimiento demográfico, modificación de ecosistemas, intensificación agrícola, especialización económica, almacenamiento, cambios en patrón de asentamiento, arquitectura ceremonial, militarismo y estratificación creciente.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Militarismo como tendencia universal</div>
+        <div class="concept-def">El desarrollo del militarismo es la única tendencia para la que Kirch afirma que no hay excepciones significativas en toda Polinesia. La competencia y el conflicto son factores dinámicos fundamentales en todos los modelos de evolución polinesia — convergencia con Carneiro.</div>
+      </div>
+      <div class="concept-card navy">
+        <div class="concept-term">Estructura ancestral como causa</div>
+        <div class="concept-def">El argumento clave del Epílogo: los sistemas jerárquicos polinésios no son <em>resultado</em> de presiones ecológicas o demográficas — son <em>estructuras ancestrales</em> que los colonizadores llevaron consigo. Los jefes imponen demandas de excedente, lo cual estimula la intensificación productiva.</div>
+      </div>
+    </div>
+
+    <div class="trends-grid">
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 1</div>
+        <div class="trend-title">Crecimiento poblacional</div>
+        <div class="trend-desc">Rápido tras la colonización; densidades altas al contacto europeo</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 2</div>
+        <div class="trend-title">Transformación de ecosistemas</div>
+        <div class="trend-desc">Reducción de biodiversidad; erosión; creación de nuevos microambientes</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 3</div>
+        <div class="trend-title">Intensificación agrícola</div>
+        <div class="trend-desc">Mayor trabajo por área; irrigación de taro en Hawai; arboricultura en Marquesas</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 4</div>
+        <div class="trend-title">Especialización económica</div>
+        <div class="trend-desc">Agricultura, pesca, manufactura de canoas, producción de bienes de prestigio</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 5</div>
+        <div class="trend-title">Almacenamiento</div>
+        <div class="trend-desc">Instalaciones de almacenamiento — clave en Tonga; excepción iluminadora en Hawai</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 6</div>
+        <div class="trend-title">Patrón de asentamiento</div>
+        <div class="trend-desc">De aldeas nucleadas en fase de colonización a unidades domésticas dispersas</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 7</div>
+        <div class="trend-title">Arquitectura ceremonial</div>
+        <div class="trend-desc">Escala e importancia creciente; templos en Hawai, tumbas de jefes en Tonga, marae en Sociedades</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 8</div>
+        <div class="trend-title">Militarismo</div>
+        <div class="trend-desc"><strong>Sin excepciones</strong>. Fortines en Rapa, <em>pā</em> en Nueva Zelanda. Competencia y conflicto fundamentales</div>
+      </div>
+      <div class="trend-item">
+        <div class="trend-num">Tendencia 9</div>
+        <div class="trend-title">Estratificación y rango</div>
+        <div class="trend-desc">Más intensa en Tonga, Sociedades y Hawai; diferenciación jerárquica llega a nuevas cotas</div>
+      </div>
+    </div>
+
+    <div class="cases-row">
+      <div class="case-chip">
+        <div class="case-chip-label">Caso 1 — Hawai</div>
+        <div class="case-chip-value">Mayores oportunidades</div>
+        <div class="case-chip-sub">Irrigación de taro, estanques de peces, cacicazgo más elaborado. Jefatura peripatética por no desarrollar economía de almacén.</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso 2 — Tonga</div>
+        <div class="case-chip-value">Economía de almacén</div>
+        <div class="case-chip-sub">Sin irrigación viable; desarrollo de cultivo de ñame en campos secos; sistema político centralizado basado en almacenamiento.</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Caso 3 — Isla de Pascua</div>
+        <div class="case-chip-value">Restricciones severas</div>
+        <div class="case-chip-sub">Ambiente marginal → tensión extrema → desintegración política tardía. Los moai como expresión de competencia bajo constricción.</div>
+      </div>
+      <div class="case-chip">
+        <div class="case-chip-label">Ancestro común</div>
+        <div class="case-chip-value">Lapitoid / APS</div>
+        <div class="case-chip-sub">West Polynesia, ~1000 a.C. Evidencia arqueológica: Kuli'ou'ou Rockshelter, O'ahu (primera fecha 14C del Pacífico).</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- TABLA COMPARATIVA -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">03</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="section-title">Tabla comparativa</div>
+  <div class="section-byline">Carneiro 1981 vs. Kirch 1984 · convergencias, divergencias y conexión con el curso</div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Dimensión</th>
+          <th class="col-ca">Carneiro 1981</th>
+          <th class="col-ki">Kirch 1984</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Argumento eje</td>
+          <td>El cacicazgo surge por guerra bajo circunscripción. Es el precursor necesario del estado.</td>
+          <td>Los cacicazgos polinésios son el resultado de evolución local a partir de un ancestro común jerárquico, mediada por restricciones ecológicas.</td>
+        </tr>
+        <tr>
+          <td>Rol de la guerra</td>
+          <td><strong>Central y causal.</strong> Sin guerra + circunscripción no hay fusión de aldeas en cacicazgos.</td>
+          <td><strong>Universal pero no único.</strong> El militarismo es la única tendencia sin excepciones en Polinesia, pero es una entre nueve.</td>
+        </tr>
+        <tr>
+          <td>Rol del ambiente</td>
+          <td>La circunscripción <em>ambiental</em> activa el proceso bélico. Es detonante, no determinante.</td>
+          <td>Jerarquía de <em>restricciones</em> ecológicas: moldea los caminos posibles pero no determina el resultado. La estructura ancestral es tan importante como el ambiente.</td>
+        </tr>
+        <tr>
+          <td>Postura ante tipología</td>
+          <td>Propone una tipología de 3 niveles (mínimal / típico / maximal). La tipología es útil y necesaria.</td>
+          <td>Rechaza el estadialismo rígido. Usa «cacicazgo» descriptivamente. Los modelos de etapas son un «caballo muerto» en Polinesia.</td>
+        </tr>
+        <tr>
+          <td>Fuente de datos</td>
+          <td>Etnografía comparada global + algunos datos arqueológicos. Perspectiva general.</td>
+          <td>Arqueología diacrónica + etnografía + lingüística histórica. Perspectiva regional profunda (Polinesia).</td>
+        </tr>
+        <tr>
+          <td>Rol de la redistribución</td>
+          <td>Critica duramente: lo que parece redistribución es tributación. No es base del cacicazgo.</td>
+          <td>No es el foco, pero concluye que la demanda de excedente por los jefes es estructural (heredada del APS), no funcional.</td>
+        </tr>
+        <tr>
+          <td>Conexión con semanas previas</td>
+          <td>Debate directo con Flannery (sem. II), Sahlins y Service (sem. III), Renfrew y Peebles & Kus (sems. IV-V).</td>
+          <td>Diálogo con Sahlins 1958 (sem. III), critica el enfoque sincrónico; propone la arqueología diacrónica como el método para Marcus 2008 (sem. II).</td>
+        </tr>
+        <tr>
+          <td>Aporte clave al curso</td>
+          <td>Ofrece el mecanismo causal más específico del curso: <em>cómo</em> se forman los cacicazgos (guerra + circunscripción).</td>
+          <td>Ofrece el mejor caso empírico de variación controlada: 50 sociedades con el mismo origen que divergen por factores rastreables.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CONEXIÓN CON SEMANAS PREVIAS -->
+  <div class="connection-box">
+    <div class="connection-label">Conexión acumulativa con el curso (semanas I–V)</div>
+    <div class="connection-text">
+      Carneiro es el <strong>«primer motor» que Flannery criticó en la Semana II</strong>: la guerra. Ahora leemos a Carneiro directamente y vemos su argumento completo — no es que la guerra sea suficiente por sí sola, sino que la guerra <em>bajo circunscripción</em> es el mecanismo. Esto responde parcialmente la crítica de Flannery. Kirch, por su parte, ilustra las <strong>9 tendencias de cambio</strong> que Flannery y Marcus postulaban teóricamente, ahora con evidencia arqueológica sistemática de 50 secuencias reales. El militarismo (Tendencia 8 de Kirch) converge con Carneiro. La <strong>crítica de Carneiro a la redistribución</strong> retoma el debate de la Semana III (Service y Earle) y la evidencia de Peebles & Kus citada en la Semana V.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- QUIZ -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="section-label">
+    <span class="section-num">04</span>
+    <div class="section-rule"></div>
+  </div>
+  <div class="section-title">Simulacro de quiz</div>
+  <div class="section-byline">Clic para revelar la respuesta · 15 min · 4-5 preguntas · puede incluir material de semanas anteriores</div>
+
+  <div class="quiz-grid">
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-01 · <span class="tag-ca">Carneiro</span></div>
+      <div class="quiz-q">¿Cuál es la definición mínima de cacicazgo que propone Carneiro, y por qué la llama «mínima»?</div>
+      <div class="quiz-answer">Una <strong>unidad política autónoma que comprende un número de aldeas o comunidades bajo el control permanente de un jefe supremo</strong>. La llama mínima porque excluye deliberadamente atributos secundarios (como redistribución, rango, riqueza) para quedarse solo con lo esencial: la unidad política multicomunitaria y permanente. Incluir más rasgos en la definición, dice Carneiro, no garantiza capturar la esencia del concepto.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-02 · <span class="tag-ca">Carneiro</span></div>
+      <div class="quiz-q">Explique la teoría de la circunscripción y la diferencia entre circunscripción ambiental y social.</div>
+      <div class="quiz-answer">Al aumentar la densidad poblacional y escasear la tierra arable, surge la guerra por tierras. En la <strong>circunscripción ambiental</strong> (valles, islas), los pueblos vencidos no tienen dónde huir y deben subordinarse al vencedor, formando un cacicazgo. En la <strong>circunscripción social</strong>, no hay barreras físicas pero la densidad de pueblos vecinos actúa como "muro". Es menos efectiva: los vencidos pueden escapar en parte, por lo que el proceso es más lento. Ejemplo: los cacicazgos del Lowland Maya aparecen 500 años después que los de los valles circunscritos de México y Oaxaca.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-03 · <span class="tag-ca">Carneiro</span></div>
+      <div class="quiz-q">¿Por qué Carneiro critica la redistribución como explicación del origen de los cacicazgos?</div>
+      <div class="quiz-answer">Porque lo que formalmente parece redistribución es funcionalmente más parecido a la <strong>tributación</strong>. Un jefe que devuelve todo lo que recibió no gana poder ni riqueza; solo gana prestigio. El poder real surge cuando el jefe comienza a <em>apropiarse y concentrar</em>, no a redistribuir. Además, los estudios empíricos (Peebles y Kus en Hawai; Steponaitis en los Natchez; Taylor en África) muestran que en los cacicazgos el flujo de bienes no regresaba a los productores — fluía hacia arriba. La redistribución, dice Carneiro, es un callejón sin salida que ha enturbiado la comprensión del fenómeno.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-04 · <span class="tag-ki">Kirch</span></div>
+      <div class="quiz-q">¿Por qué Kirch llama a Polinesia un «laboratorio» para el estudio de la evolución social?</div>
+      <div class="quiz-answer">Porque ofrece un control analítico excepcional: las 50 sociedades polinesias <strong>derivan demostrablemente de un único ancestro común</strong> (la Sociedad Polinesia Ancestral), se desarrollaron en aislamiento relativo (lo que reduce el problema de la difusión), y lo hicieron en islas con condiciones ecológicas muy contrastantes (atolos, islas altas, climas tropicales a subantárticos, poblaciones de cientos a cientos de miles). Es como un experimento histórico en el que el "punto de partida" fue idéntico pero las variables ambientales y demográficas difirieron — lo que permite aislar los procesos de cambio.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-05 · <span class="tag-ki">Kirch</span></div>
+      <div class="quiz-q">¿Cuál de las 9 tendencias dominantes en la prehistoria polinesia es la única sin excepciones, y qué implica esto?</div>
+      <div class="quiz-answer">El <strong>desarrollo del militarismo</strong> (Tendencia 8). Kirch afirma que para esta tendencia no hay excepciones significativas en ningún grupo polinésio. Arqueológicamente se manifiesta en la construcción creciente de fortines y otras obras defensivas (los terraced hill forts de Rapa y los <em>pā</em> de Nueva Zelanda representan el apogeo tecnológico). Esto implica que la competencia y el conflicto son factores dinámicos <em>fundamentales</em> en cualquier modelo de evolución polinesia, convergiendo con el argumento de Carneiro sobre la guerra como mecanismo central.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+    <div class="quiz-card" onclick="toggle(this)">
+      <div class="quiz-num">Q-06 · <span class="tag-co">Comparativa</span></div>
+      <div class="quiz-q">¿En qué coinciden y en qué difieren Carneiro y Kirch respecto al rol de la guerra en la evolución de los cacicazgos?</div>
+      <div class="quiz-answer">Coinciden en que la guerra y el militarismo son factores <strong>ineludibles</strong> en la evolución de los cacicazgos — ninguno de los dos permite ignorarlos. Difieren en el peso relativo: para Carneiro la guerra (bajo circunscripción) es <em>el</em> mecanismo causal central y suficiente para explicar la formación de cacicazgos. Para Kirch el militarismo es la tendencia más universal, pero es una entre varias; la estructura ancestral jerárquica (el APS ya era estratificado) y las restricciones ecológicas locales son tan importantes como el conflicto. Carneiro privilegia el mecanismo único; Kirch aboga por explicaciones sintéticas multicausales.</div>
+      <button class="quiz-toggle">▸ ver respuesta</button>
+    </div>
+
+  </div>
+
+  <div class="strategy-box">
+    <div class="strategy-icon">⚑</div>
+    <div class="strategy-text">
+      <strong>Para el quiz de hoy:</strong> Esta semana el tema es explícitamente «Guerra», así que las preguntas probablemente apunten a la teoría de la circunscripción de Carneiro (Q-02) y al militarismo como tendencia universal en Kirch (Q-05). También puede aparecer la crítica a la redistribución (Q-03), que conecta con las semanas III y V. No olvides que el quiz puede incluir preguntas de cualquier semana previa — repasá la distinción Flannery/Marcus (sem. II) y la definición de cacicazgo (sem. III) si tenés tiempo.
+    </div>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  AT-1139 Cacicazgos · Alfredo Jesús Montero Fonseca · Carné 942297 · UCR I-2026
+</footer>
+
+<script>
+  function toggle(card) {
+    const answer = card.querySelector('.quiz-answer');
+    const btn = card.querySelector('.quiz-toggle');
+    const isVisible = answer.classList.contains('visible');
+    answer.classList.toggle('visible', !isVisible);
+    btn.textContent = isVisible ? '▸ ver respuesta' : '▴ ocultar';
+  }
+</script>
+</body>
+</html>
